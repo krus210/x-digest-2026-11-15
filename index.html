@@ -1,0 +1,814 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><title>X Weekly Digest · 2026-11-15</title>
+<style>
+  :root{
+    --bg:#080810; --bg2:#0d0d18; --panel:#12121f; --panel2:#171727; --line:#262638;
+    --ink:#ececf5; --muted:#9a9ab0; --faint:#6b6b82;
+    --purple:#a78bfa; --purple-deep:#7c5cff; --green:#4ade80; --red:#fb7185;
+    --amber:#fbbf24; --blue:#60a5fa; --cyan:#22d3ee;
+    --radius:18px; --maxw:1120px;
+    --gutter:22px;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:'Inter',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  body::before{content:"";position:fixed;inset:0;z-index:-2;
+    background:
+      radial-gradient(900px 500px at 78% -8%, rgba(124,92,255,.20), transparent 60%),
+      radial-gradient(800px 600px at 0% 18%, rgba(34,211,238,.07), transparent 55%),
+      radial-gradient(700px 600px at 100% 90%, rgba(167,139,250,.08), transparent 60%)}
+  a{color:inherit;text-decoration:none}
+  h1,h2,h3{font-family:'Space Grotesk',sans-serif;line-height:1.12;letter-spacing:-.02em;font-weight:700;margin:0}
+  ::selection{background:rgba(124,92,255,.35)}
+
+  #progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
+    background:linear-gradient(90deg,var(--purple-deep),var(--cyan));box-shadow:0 0 14px rgba(124,92,255,.7)}
+
+  nav{position:sticky;top:0;z-index:90;backdrop-filter:blur(14px);
+    background:rgba(8,8,16,.72);border-bottom:1px solid var(--line)}
+  .nav-in{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;gap:18px;padding:11px var(--gutter)}
+  .brand{font-family:'Space Grotesk';font-weight:700;font-size:15px;white-space:nowrap;display:flex;gap:9px;align-items:center}
+  .brand .dot{width:9px;height:9px;border-radius:50%;background:var(--purple);box-shadow:0 0 12px var(--purple)}
+  .nav-links{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;margin-left:auto;min-width:0;-webkit-overflow-scrolling:touch}
+  .nav-links::-webkit-scrollbar{display:none}
+  .nav-links a{font-size:12.5px;color:var(--muted);padding:6px 11px;border-radius:9px;white-space:nowrap;transition:.18s;font-weight:500}
+  .nav-links a:hover{color:var(--ink);background:var(--panel2)}
+  .nav-links a.active{color:#fff;background:linear-gradient(135deg,var(--purple-deep),#5b3fd6)}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--gutter);padding-right:var(--gutter)}
+  section{padding-top:76px;padding-bottom:52px;scroll-margin-top:70px;border-top:1px solid rgba(255,255,255,.06)}
+
+  /* ---------- HERO ---------- */
+  .hero{padding-top:54px;padding-bottom:40px}
+  .eyebrow{display:inline-flex;align-items:center;gap:9px;font-family:'JetBrains Mono';font-size:12px;
+    letter-spacing:.16em;text-transform:uppercase;color:var(--purple);
+    border:1px solid rgba(167,139,250,.3);padding:6px 13px;border-radius:999px;background:rgba(124,92,255,.08)}
+  .hero h1{font-size:clamp(34px,6vw,60px);margin:22px 0 8px;background:linear-gradient(180deg,#fff 30%,#b9b4e8);
+    -webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero .sub{font-size:clamp(16px,2.3vw,21px);color:var(--muted);max-width:780px;font-weight:500}
+  .chips{display:flex;flex-wrap:wrap;gap:9px;margin:26px 0 4px}
+  .chip{font-family:'JetBrains Mono';font-size:12.5px;color:var(--ink);background:var(--panel);
+    border:1px solid var(--line);padding:7px 13px;border-radius:10px;display:flex;gap:7px;align-items:center}
+  .chip b{color:var(--purple);font-weight:700}
+
+  /* "О чём говорят" — featured lead card */
+  .talk{background:linear-gradient(160deg,var(--panel),#0e0e1a);border:1px solid var(--line);
+    border-left:3px solid var(--purple);border-radius:var(--radius);padding:26px 28px;position:relative;overflow:hidden;margin-top:24px}
+  .talk::before{content:"\1F525";position:absolute;top:-6px;right:14px;font-size:90px;opacity:.06;line-height:1}
+  .talk .lab{font-family:'JetBrains Mono';font-size:11.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+  .talk p{font-size:17px;font-weight:500;margin:0;color:#f1f0fb}
+  .talk .accent{color:var(--purple);font-weight:700}
+
+  /* section heading */
+  .shead{display:flex;align-items:baseline;gap:14px;margin-bottom:26px;flex-wrap:wrap}
+  .shead .num{font-family:'JetBrains Mono';font-size:13px;color:var(--purple);border:1px solid rgba(167,139,250,.3);
+    border-radius:8px;padding:3px 9px;background:rgba(124,92,255,.07)}
+  .shead h2{font-size:clamp(23px,3.4vw,32px)}
+  .lead{color:var(--muted);font-size:16px;max-width:800px;margin:-8px 0 26px}
+
+  /* deep-link pill -> твит */
+  .src{font-family:'JetBrains Mono';font-size:12px;color:var(--cyan);border:1px solid rgba(34,211,238,.28);
+    background:rgba(34,211,238,.06);padding:3px 9px;border-radius:7px;white-space:nowrap;transition:.16s;display:inline-flex;gap:6px;align-items:center}
+  .src:hover{background:rgba(34,211,238,.18);color:#fff;border-color:var(--cyan)}
+  .src svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2}
+
+  
+.trick{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);position:relative}
+.shot{border:1px solid var(--line);cursor:zoom-in}.shot:hover{border-color:var(--purple)}
+/* метаданные */
+  .meta{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:18px 20px;font-size:13.5px;color:var(--muted)}
+  .meta div{padding:5px 0;border-bottom:1px solid var(--line)}
+  .meta div:last-child{border-bottom:none}
+  .meta b{color:var(--faint);font-family:'JetBrains Mono';font-size:12px;font-weight:600;margin-right:8px}
+
+  footer{padding:46px var(--gutter) 70px;color:var(--faint);font-size:13px;text-align:center;border-top:1px solid var(--line);margin-top:24px}
+  footer a{color:var(--purple)}
+
+  #lb{position:fixed;inset:0;z-index:200;background:rgba(4,4,9,.93);backdrop-filter:blur(8px);
+    display:none;align-items:center;justify-content:center;flex-direction:column;padding:24px;cursor:zoom-out}
+  #lb.on{display:flex;animation:fade .2s ease}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  #lb img{max-width:94vw;max-height:80vh;border-radius:12px;border:1px solid var(--line);box-shadow:0 30px 80px rgba(0,0,0,.7)}
+  #lb .lbcap{color:var(--muted);font-size:14px;margin-top:16px;max-width:760px;text-align:center}
+  #lb .lbbtn{margin-top:14px;display:inline-flex;gap:8px;align-items:center;background:var(--purple-deep);color:#fff;padding:10px 18px;border-radius:10px;font-weight:600;font-size:14px;cursor:pointer}
+  #lb .lbbtn svg{width:16px;height:16px;fill:none;stroke:#fff;stroke-width:2}
+  #lb .close{position:absolute;top:20px;right:24px;color:#fff;font-size:30px;opacity:.7;cursor:pointer}
+
+  .js .rv{opacity:0;transform:translateY(22px);transition:opacity .6s cubic-bezier(.2,.7,.3,1),transform .6s cubic-bezier(.2,.7,.3,1)}
+  .rv.in{opacity:1;transform:none}
+
+  
+@media(max-width:640px){:root{--gutter:18px;--radius:14px}.hero .sub{font-size:16px}.lead{font-size:16px}.eyebrow{font-size:10px;letter-spacing:.05em}section{padding-top:52px;padding-bottom:36px;scroll-margin-top:75px}.shead{margin-bottom:20px}}
+code{font: .9em ui-monospace,monospace;color:var(--topic-accent,var(--purple));background:rgba(167,139,250,.08);padding:.08em .25em;border-radius:4px;overflow-wrap:anywhere}
+
+
+/* Review edition: same visual system, with topic navigation and comparison. */
+h1,h2,h3,.brand{font-family:system-ui,-apple-system,sans-serif}body{font-family:system-ui,-apple-system,sans-serif}
+.hero h1{max-width:900px;font-size:clamp(38px,6vw,70px);line-height:1.04;letter-spacing:-.045em}.hero .sub{max-width:800px;font-weight:400;line-height:1.6}.eyebrow{font-family:monospace;letter-spacing:.08em}.hero{padding-top:64px;padding-bottom:46px}
+.hero-note{color:var(--faint);font-size:14px;margin-top:25px}.talk p{font-weight:400}.talk{border-left-width:3px}
+.nav-in{min-height:66px}.nav-links a{display:flex;align-items:center;min-height:44px}.nav-links a small{margin-left:6px;color:var(--faint)}
+.toolbar{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin-top:32px}.search-label{flex:1;min-width:220px;max-width:540px}.search-label span{display:block;color:var(--muted);font-size:12px;margin-bottom:8px}input[type=search]{width:100%;min-height:48px;border:1px solid var(--line);border-radius:12px;background:var(--bg2);color:var(--ink);padding:12px 16px;font:inherit;outline:none}input[type=search]:focus{border-color:var(--purple)}
+.toggle{display:flex;align-items:center;gap:10px;min-height:48px;color:var(--muted);cursor:pointer;margin-top:23px;font-size:14px}.toggle input{width:20px;height:20px;accent-color:var(--purple)}.result{font-size:13px;color:var(--faint);margin:12px 0 0}.empty{padding:36px;border:1px dashed var(--line);border-radius:18px;color:var(--muted)}[hidden]{display:none!important}
+.topic-intro{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:start;margin-bottom:28px}.topic-intro .shead{margin-bottom:12px}.topic-intro .lead{margin:0;max-width:690px}.topic-count{font:12px monospace;color:var(--muted);white-space:nowrap;padding-top:8px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;align-items:start}.trick{padding:28px;margin:0;min-width:0;overflow-wrap:anywhere}.feature{grid-column:1/-1;padding:34px;border-color:#605083;background:linear-gradient(135deg,#1b1730,#12121f 70%)}.trick h3{font-size:24px;line-height:1.22;letter-spacing:-.025em;margin:18px 0 12px}.feature h3{font-size:clamp(27px,3.6vw,40px);max-width:850px}.card-top{display:flex;gap:10px;align-items:center;font-size:11px;color:var(--muted)}.card-top .tnum{position:static;inset:auto;width:auto;height:auto;padding:0;border:0;background:none;font:13px monospace;color:var(--purple);opacity:1}.badge{margin-left:auto;color:var(--cyan);font-size:10px;border:1px solid #235158;padding:3px 7px;border-radius:6px;white-space:nowrap}.badge.kept{color:var(--muted);border-color:var(--line)}.byline{color:var(--purple);font-size:13px;line-height:1.6;margin-bottom:20px}.byline span{color:var(--faint)}
+.copy,.detail-copy{font-size:16px;line-height:1.7}.copy p{margin:0 0 16px}.copy .problem{color:#b5b3c7}.feature .copy{columns:2;column-gap:34px}.feature .copy p{break-inside:avoid}
+details{margin-top:24px;border-top:1px solid var(--line)}summary{min-height:52px;display:flex;align-items:center;justify-content:space-between;gap:12px;color:var(--purple);cursor:pointer;font-size:14px;font-weight:600;list-style:none}summary::-webkit-details-marker{display:none}summary span{font-size:22px}details[open] summary span{transform:rotate(45deg)}.detail-copy p{margin:0 0 16px}.detail-copy .micro{font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin-top:18px;margin-bottom:8px}.links{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}.links a{display:inline-flex;align-items:center;min-height:44px;color:var(--muted);font-size:13px}.links a:hover{color:white}
+figure{margin:26px 0 8px}.shot{border-radius:12px;overflow:hidden}.shot .zoom{position:relative;inset:auto;width:100%;height:auto;opacity:1;border-radius:0;border:0;padding:0;display:block;cursor:zoom-in;position:relative;background:#e9e7df;width:100%;color:#242426}.zoom img{display:block;width:100%;height:auto;max-height:none;object-fit:contain}.zoom span{position:absolute;right:12px;bottom:10px;padding:5px 9px;background:#ffffffed;border-radius:6px;font-size:11px}.zoom:focus-visible{outline:3px solid var(--cyan);outline-offset:-4px}figcaption{color:var(--faint);font-size:12px;margin-top:10px}.shot:after,.shot:before{display:none}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.review-box{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:26px;min-width:0}.review-box h3{font-size:20px;margin-bottom:16px}.review-box p,.review-box li{color:var(--muted);font-size:16px;line-height:1.7}.review-box ul{padding-left:20px}.review-box li+li{margin-top:13px}.review-box strong{color:var(--ink);font-weight:500}.review-box a{text-decoration:underline;text-underline-offset:3px}.review-box label{display:flex;align-items:flex-start;gap:12px;min-height:44px;color:var(--muted);font-size:16px;margin:12px 0}.review-box input{width:20px;height:20px;flex:none;accent-color:var(--purple);margin-top:5px}
+#lb{padding:65px 24px 100px;overflow:auto}#lbimg{max-width:min(1400px,94vw);max-height:75vh;object-fit:contain}#lb .close{position:fixed;right:20px;top:15px;display:flex;justify-content:center;align-items:center;min-width:48px;min-height:48px;border:1px solid #555;background:#171727;color:white;border-radius:50%;font-size:30px;cursor:pointer}.lbcap{max-width:900px;text-align:center}.lbbtn{min-height:44px}footer{padding-top:35px;padding-bottom:50px}button,input,a,summary{touch-action:manipulation}a:focus-visible,summary:focus-visible,button:focus-visible{outline:2px solid var(--cyan);outline-offset:4px}
+.trick{scroll-margin-top:85px;--topic-accent:#bca5ff;--topic-rgb:167,139,250}.trick[data-section="tools"]{--topic-accent:#67dce9;--topic-rgb:34,211,238}.trick[data-section="workflow"]{--topic-accent:#f5cc78;--topic-rgb:251,191,36}
+.key-point{margin:24px 0;padding:20px 22px;border-radius:13px;border:1px solid rgba(var(--topic-rgb),.3);border-left:4px solid var(--topic-accent);background:linear-gradient(120deg,rgba(var(--topic-rgb),.12),rgba(var(--topic-rgb),.03))}.point-label{display:flex;align-items:center;gap:8px;color:var(--topic-accent);text-transform:uppercase;font-size:11px;letter-spacing:.12em;font-weight:700;margin-bottom:10px}.point-label svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6}.key-point strong{display:block;color:#fff;font-size:19px;line-height:1.45;font-weight:650;letter-spacing:-.015em}.key-point p{font-size:16px;line-height:1.65;color:#c8c5d6;margin:10px 0 0}
+.flow-block{margin:28px 0}.flow-label{color:var(--topic-accent);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin:0 0 12px}.flow-label span{color:var(--faint);font-weight:400;text-transform:none;letter-spacing:0}.mini-flow{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin:0;padding:0}.mini-flow li{position:relative;display:flex;flex-direction:column;gap:9px;align-items:flex-start;justify-content:flex-start;min-width:0;border:1px solid rgba(var(--topic-rgb),.22);border-radius:10px;padding:13px 11px;background:rgba(var(--topic-rgb),.045);font-size:14px;line-height:1.4;color:#e5e2ed}.flow-index{font:10px monospace;color:var(--topic-accent)}.mini-flow:not(.branches) li:not(:last-child)::after{content:'→';position:absolute;right:-16px;top:50%;transform:translateY(-50%);color:var(--topic-accent);font-size:15px}.feature .mini-flow li{flex-direction:row;align-items:center;gap:14px;font-size:17px;padding:20px}.feature .flow-index{font-size:12px}
+.apply-panel{background:linear-gradient(145deg,rgba(var(--topic-rgb),.09),rgba(var(--topic-rgb),.025));border:1px solid rgba(var(--topic-rgb),.3);border-radius:13px;padding:22px 20px;margin-top:22px}.apply-panel h4{display:flex;align-items:center;gap:9px;font-size:20px;line-height:1.3;letter-spacing:-.02em;margin:0;color:var(--topic-accent)}.apply-panel h4 svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2}.apply-caption{color:var(--muted);font-size:12px;margin:7px 0 20px}.action-steps{counter-reset:action;list-style:none;padding:0;margin:0;display:grid;gap:16px;font-size:16px;line-height:1.6}.action-steps li{counter-increment:action;position:relative;padding-left:37px}.action-steps li::before{content:counter(action);position:absolute;left:0;top:1px;display:grid;place-items:center;width:25px;height:25px;border-radius:8px;background:rgba(var(--topic-rgb),.15);border:1px solid rgba(var(--topic-rgb),.3);font:600 12px monospace;color:var(--topic-accent)}.feature .action-steps{grid-template-columns:repeat(3,minmax(0,1fr));gap:24px}.trick details{margin-top:18px}.trick summary{color:var(--muted);font-size:13px}.trick details[open] summary{color:var(--topic-accent)}.detail-copy{color:var(--muted)}
+@media(max-width:760px){.feature .action-steps{grid-template-columns:1fr;gap:16px}.feature .copy{columns:1}}
+@media(max-width:640px){.key-point{padding:18px 16px}.key-point strong{font-size:19px}.apply-panel{padding:20px 16px}.mini-flow{grid-template-columns:1fr;gap:18px}.mini-flow li,.feature .mini-flow li{flex-direction:row;align-items:center;gap:12px;font-size:16px;padding:13px 14px}.mini-flow:not(.branches) li:not(:last-child)::after{content:'↓';right:auto;left:25px;top:auto;bottom:-19px;transform:none}.flow-index{font-size:11px}.apply-panel h4{font-size:21px}.feature .flow-index{font-size:11px}}
+@media(max-width:760px){.grid,.review-grid{grid-template-columns:1fr}.feature .copy{columns:1}.brand{font-size:12px}.nav-in{gap:12px}.nav-links a{padding-inline:9px}.topic-intro{display:block}.topic-count{display:none}}
+@media(max-width:640px){.hero{padding-top:32px;padding-bottom:32px}.hero h1{font-size:42px}.trick,.feature{padding:22px 18px}.trick h3{font-size:24px}.feature h3{font-size:29px}.review-box{padding:22px 18px}.nav-in{min-height:60px}.brand .dot{display:none}.brand{white-space:normal;width:45px;flex-shrink:0;line-height:1.15}.hero-note{font-size:13px}.toolbar{gap:6px}.search-label{max-width:none;min-width:0;flex-basis:100%}.toggle{margin-top:0}.talk{padding:22px 18px}.talk p{font-size:16px}.card-top{gap:8px}section{scroll-margin-top:75px}.zoom span{position:static;display:block;padding:8px}.shead h2{font-size:26px}.lbcap{font-size:13px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.rv{opacity:1!important;transform:none!important;transition:none!important}}
+
+.shot{margin-inline:auto}
+.shot .zoom img{width:auto;max-width:100%;height:auto;display:block;margin-inline:auto}
+.radar{display:grid;gap:14px}
+.radar li{color:var(--muted);font-size:16px;line-height:1.65}
+.radar li strong{color:var(--ink);font-weight:600}
+.funnel p{color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 14px}
+</style>
+
+<style data-visual-html-responsive="v1">
+:root {
+  --page-gutter: 22px;
+  --gutter: 22px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  max-width: 100%;
+}
+
+body {
+  overflow-x: visible !important;
+}
+
+.wrap,
+.nav-in,
+footer,
+[data-mobile-container] {
+  width: 100% !important;
+  margin-inline: auto;
+  padding-inline: var(--page-gutter) !important;
+}
+
+section {
+  scroll-margin-top: 70px;
+}
+
+.grid > *,
+.hero-grid > *,
+.split > *,
+.quotes > *,
+.checks > *,
+.facts > *,
+.tools > *,
+.debate > *,
+.nav-links,
+.navlinks,
+.shead > *,
+.sec-head > *,
+.tl-item,
+.timeline > *,
+[data-mobile-stack] > * {
+  min-width: 0;
+}
+
+img,
+video,
+audio,
+canvas,
+iframe,
+figure {
+  max-width: 100% !important;
+}
+
+img,
+video,
+canvas {
+  height: auto;
+}
+
+video,
+audio,
+iframe {
+  display: block;
+  width: 100% !important;
+}
+
+iframe {
+  height: auto !important;
+  aspect-ratio: 16 / 9;
+  border: 0;
+}
+
+svg {
+  max-width: 100%;
+}
+
+pre,
+table,
+.tbl,
+[data-mobile-scroll] {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+  overscroll-behavior-inline: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+table,
+.tbl {
+  display: block;
+}
+
+[data-mobile-scroll] > svg {
+  width: 640px !important;
+  min-width: 640px !important;
+  max-width: none !important;
+  height: auto;
+}
+
+.k,
+.srcline,
+.srcline code,
+.eyebrow,
+.chip,
+.pill,
+.tag,
+.au,
+.src,
+.tc,
+.t,
+.timecode,
+.trick-head h3,
+.item-head h3,
+.check .txt,
+.talk p,
+.trick p,
+.trick li,
+.item p,
+.item li,
+.card p,
+.card li,
+.quote .q,
+.quote .ru,
+blockquote .ru,
+.tl-item p,
+.timeline p,
+.deb li,
+.callout,
+.fact .d,
+.tool .desc,
+[data-mobile-copy],
+[data-mobile-copy] p,
+[data-mobile-copy] li,
+[data-mobile-copy] dd,
+[data-mobile-wrap],
+code:not(pre code),
+h1,
+h2,
+h3,
+h4 {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.eyebrow,
+.chip,
+.pill,
+.tag,
+.au,
+.src,
+.links .src {
+  max-width: 100%;
+}
+
+.src,
+.links .src {
+  white-space: normal !important;
+}
+
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: 18px;
+    --gutter: 18px;
+    --radius: 14px;
+  }
+
+  .nav-in,
+  nav .wrap {
+    min-height: 60px;
+    height: auto !important;
+    gap: 8px !important;
+    padding-block: 8px !important;
+  }
+
+  .brand,
+  .navbrand {
+    display: none !important;
+  }
+
+  .nav-links,
+  .navlinks {
+    width: 100%;
+    margin-left: 0 !important;
+    padding-bottom: 2px;
+    justify-content: space-between;
+    overflow-x: auto;
+    scrollbar-width: thin;
+  }
+
+  .nav-links::-webkit-scrollbar,
+  .navlinks::-webkit-scrollbar {
+    display: block;
+    height: 2px;
+  }
+
+  nav a,
+  a.src,
+  a.tc,
+  a.t,
+  a.timecode,
+  a.btn,
+  button,
+  [role="button"],
+  .lbbtn,
+  #lb .close,
+  .lightbox .close,
+  [data-seek] {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  nav a,
+  a.src,
+  a.tc,
+  a.t,
+  a.timecode,
+  a.btn,
+  button,
+  [role="button"],
+  .lbbtn,
+  #lb .close,
+  .lightbox .close,
+  a[data-seek],
+  button[data-seek],
+  span[data-seek] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav-links a,
+  .navlinks a {
+    flex: 0 0 auto;
+    padding: 9px 8px !important;
+  }
+
+  section {
+    padding-block: 52px 36px !important;
+    scroll-margin-top: 56px !important;
+  }
+
+  header.hero,
+  .hero {
+    padding-block: 24px 24px !important;
+  }
+
+  .hero h1 {
+    font-size: clamp(30px, 8vw, 36px) !important;
+    line-height: 1.1;
+    margin-top: 18px;
+  }
+
+  .g2,
+  .g3,
+  .g4,
+  .grid:not(.g2):not(.g3):not(.g4),
+  .hero-grid,
+  .split,
+  .quotes,
+  .checks,
+  .facts,
+  .tools,
+  .debate,
+  [data-mobile-stack="grid"] {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  [data-mobile-stack="flex"] {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .canvas:not([data-mobile-diagram="reflow"]),
+  figure:not([data-mobile-diagram="reflow"]):has(> svg[viewBox]) {
+    max-width: 100%;
+    overflow-x: auto !important;
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .canvas:not([data-mobile-diagram="reflow"]) > svg[viewBox]:not([data-mobile-diagram="reflow"]),
+  figure:not([data-mobile-diagram="reflow"]) > svg[viewBox]:not([data-mobile-diagram="reflow"]) {
+    width: 640px !important;
+    min-width: 640px !important;
+    max-width: none !important;
+    height: auto;
+  }
+
+  .talk,
+  .trick,
+  .item,
+  .card,
+  .quote,
+  .fact,
+  .check:not(ul),
+  .check > li,
+  .deb,
+  .thesis,
+  .thesis-card,
+  blockquote,
+  .callout,
+  [data-mobile-card] {
+    padding: 20px 18px !important;
+  }
+
+  blockquote {
+    margin-inline: 0 !important;
+  }
+
+  .trick-head,
+  .item-head,
+  .shead,
+  .sec-head,
+  .code .bar,
+  .tl-head,
+  blockquote footer {
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .shead,
+  .sec-head {
+    align-items: flex-start;
+    margin-bottom: 20px !important;
+  }
+
+  .shead h2,
+  .sec-head h2 {
+    font-size: 24px !important;
+  }
+
+  .shead .src,
+  .sec-head .src {
+    margin-left: 0 !important;
+  }
+
+  .trick-head .tnum,
+  .item-head .tnum {
+    min-width: 38px;
+    height: 38px;
+    font-size: 19px;
+  }
+
+  .trick-head h3,
+  .item-head h3 {
+    padding-top: 4px;
+    font-size: 20px;
+  }
+
+  .who {
+    padding-left: 0;
+  }
+
+  .about,
+  .key,
+  .try,
+  .risk {
+    padding: 15px 16px;
+  }
+
+  .hero .sub,
+  .hero .lede,
+  .hero .lead,
+  .lead,
+  .lede,
+  .sec-sub,
+  .talk p,
+  .trick p,
+  .trick li,
+  .item p,
+  .item li,
+  .card p,
+  .card li,
+  .quote .q,
+  .quote .ru,
+  blockquote .ru,
+  .tl-item p,
+  .timeline p,
+  .check .txt,
+  .check > li,
+  .deb li,
+  .callout,
+  .fact .d,
+  .tool .desc,
+  .watch-item p,
+  [data-mobile-copy],
+  [data-mobile-copy] p,
+  [data-mobile-copy] li,
+  [data-mobile-copy] dd {
+    font-size: 16px !important;
+  }
+
+  .fact {
+    align-items: flex-start;
+  }
+
+  .fact .v {
+    min-width: 0 !important;
+  }
+
+  .tl {
+    padding-left: 24px;
+  }
+
+  .tl-thumbs .shot {
+    width: 100% !important;
+  }
+
+  .links {
+    align-items: stretch;
+  }
+
+  .links .src {
+    min-height: 44px;
+    padding: 9px 11px;
+  }
+
+  .check:not(ul) {
+    flex-wrap: wrap;
+  }
+
+  .check .txt {
+    flex: 1 1 220px;
+  }
+
+  #lb,
+  .lightbox {
+    padding: 16px !important;
+  }
+
+  footer {
+    padding-block: 36px 60px !important;
+  }
+}
+</style>
+</head><body data-digest-date="2026-11-15"><div id="progress"></div>
+<nav aria-label="Темы дайджеста"><div class="nav-in"><a class="brand" href="#top"><span class="dot"></span>X / WEEKLY</a><div class="nav-links"><a href="#memory">Память и контекст <small>6</small></a><a href="#tools">Инструменты <small>9</small></a><a href="#workflow">Skills и процессы <small>5</small></a><a href="#radar">Радар</a></div></div></nav>
+<header class="hero wrap" id="top"><div class="eyebrow">8 ноября — 15 ноября 2026</div><h1>Неделя, когда harness стали сравнивать по цене задачи</h1><p class="sub">Двадцать материалов из X за 8–15 ноября: измерения harness и окружения агента, новые способы сократить переписку агента с инструментами, self-hosted агенты и рабочие приёмы для hooks, ревью и планов. В каждой карточке есть механизм, граница применимости и шаги для своего проекта.</p><div class="chips"><span class="chip"><b>20</b> материалов</span><span class="chip"><b>3</b> темы</span></div><div class="talk"><div class="lab">С чего начать</div><p>Начните с отчёта Garry Tan о g-harness-evals. Он держал модель и задачи неизменными и менял только оболочку. Оболочки различались сильнее ценой решённой задачи, чем долей решённых задач. Правило, видимое на каждом ходу, на нескольких оболочках выполнялось в 30 из 30 ходов. Skills gstack, которые агенту прямо велели запустить, Opus прочитал, но не выполнил ни в одной из 46 сессий. Отсюда практический вывод для своих AGENTS.md и hooks: обязательное правило держите там, где модель видит его каждый ход.</p></div><div class="toolbar"><label class="search-label"><span>Найти материал</span><input id="search" type="search" placeholder="Память, MCP, hooks…" autocomplete="off"></label></div><p id="result" class="result" role="status" aria-live="polite">Показано 20 из 20</p></header><main><div class="wrap"><p id="empty" class="empty" hidden>По этому запросу ничего не найдено. Попробуйте другое слово.</p></div>
+<section class="wrap topic" id="memory"><div class="topic-intro"><div><div class="shead"><span class="num">6</span><h2>Память и контекст</h2></div><p class="lead">Где агент видит правила, как ему подать окружение и сколько контекста стоит каждый ход. Здесь измерения harness, оптимизация окружения, общий репозиторий для skills и рецензент без истории беседы.</p></div></div><div class="grid" data-mobile-stack="grid"><article class="trick rv feature" id="card-1" data-card-id="2121464508225053153" data-section="memory" data-mobile-card>
+<div class="card-top"><span class="tnum">01</span><span>Измерение · open source</span></div>
+<h3>Сравнивать harness по цене решённой задачи и держать обязательные правила в каждом ходе</h3><div class="byline">Garry Tan (Y Combinator), репозиторий g-harness-evals <span>· 14 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Команда выбирает между Claude Code, Codex, Pi и другими оболочками по ощущениям или по общей таблице моделей. Модель при этом одна, а счёт за неделю и поведение агента сильно расходятся. Ещё одна частая проблема: правило из skill или CLAUDE.md агент читает, но не выполняет.</p><p>В g-harness-evals модель и задачи фиксированы, меняется только harness: системный промпт, инструменты и память. На 52 задачах Terminal-Bench 2.1 по две попытки на задачу пять из шести оболочек прошли в пределах 15 пунктов от родной (Claude Code для Opus 5.5, Codex для GPT-6.1 Sol), а цена решённой задачи различалась заметно сильнее. Отдельный опыт касался правил: «check gbrain first» в системном промпте или в per-turn hook на нескольких оболочках выполнялось в 30 из 30 ходов, через hook Claude Code — в 26 из 30. Skills gstack (/investigate, /qa, /review, /ship) Opus читал, но не выполнил ни одного их шага ни в одной из 46 сессий. В отчёте от 12 ноября Fable 5.2 решил примерно столько же задач, сколько Opus 5.5 (82,7% против 84,6%), за 2,80× цены решённой задачи.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Harness различаются в основном ценой решённой задачи. Обязательное правило работает, когда агент видит его на каждом ходу.</strong><p data-mobile-copy>Выбор оболочки и модели переводится в одну метрику, которую можно посчитать на своих задачах. Правила, от которых зависит безопасность или порядок работы, стоит переносить из skills в системный промпт или hook.</p></aside>
+<figure><div class="shot" data-full="assets/2121464508225053153-1.jpg" data-href="https://x.com/garrytan/status/2121464508225053153" data-cap="График из поста: цена решённой задачи в Claude Code 2.1.322 на 52 задачах Terminal-Bench 2.1, по две попытки, с 95% диапазонами." data-w="1200" data-h="675" style="max-width:600px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/2121464508225053153-1.jpg" alt="График цены решённой задачи: Opus 5.5 около 0,65 доллара, Fable 5.2 около 1,83, Fable 5.1 около 2,56, с 95% диапазонами" decoding="async" width="1200" height="675"><span>Увеличить</span></button></div><figcaption>График из поста: цена решённой задачи в Claude Code 2.1.322 на 52 задачах Terminal-Bench 2.1, по две попытки, с 95% диапазонами.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Как устроено измерение <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Те же модель и задачи, меняется только harness</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Метрика: цена решённой задачи с 95% диапазоном</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Обязательное правило: системный промпт или per-turn hook</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Соберите 15–20 типовых задач своего Go-сервиса с проверкой результата (<code>go test ./...</code>, линтер, curl к эндпоинту) и прогоните их в двух оболочках на одной модели.</li><li>Считайте не долю решённых, а сумму затрат, делённую на число решённых задач. Отдельно смотрите самые дорогие задачи: они дают большую часть счёта.</li><li>Перенесите одно обязательное правило из skill в системный промпт или per-turn hook и проверьте по логам сессий, сколько ходов его выполнили.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Задачи публичные и для Opus в основном лёгкие; авторы прямо пишут, что различить Fable и Opus на них трудно. Отказ gstack показан на лёгких задачах и не доказывает бесполезность skills вообще. Стоимость в отчёте считалась по прайс-листу и дважды исправлялась (9 и 10 ноября). «В пределах 15 пунктов» — тест на непроигрыш, а не равенство: у трёх оболочек весь 95% диапазон разницы ниже нуля. Опыт с размещением правил небольшой (10 публичных задач, одна попытка) и без статистического теста.</p></div></details>
+<div class="links"><a href="https://x.com/garrytan/status/2121464508225053153" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/garrytan/g-harness-evals" target="_blank" rel="noopener">g-harness-evals ↗</a><a href="https://frontierharness.org/live/" target="_blank" rel="noopener">FrontierHarness live (независимый рейтинг) ↗</a></div></article><article class="trick rv" id="card-2" data-card-id="2121385051015582172" data-section="memory" data-mobile-card>
+<div class="card-top"><span class="tnum">02</span><span>Исследование</span></div>
+<h3>Перестраивать окружение агента: шпаргалки и индексы вместо повторного поиска</h3><div class="byline">Alex Dimakis, Bespoke Labs <span>· 13 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент поддержки или внутренний ассистент решает тысячи задач над одними и теми же Slack, базами и репозиториями. Каждый раз он заново ищет эндпоинты и разглядывает данные и платит за это входными токенами.</p><p>EnvOpt оптимизирует не модель и не harness, а то, как окружение подаётся агенту. Исследовательский агент в sandbox запускает целевого агента на обучающих задачах без verifier, разбирает траектории и правит окружение как каталог: добавляет шпаргалки (например, все эндпоинты для Jira, Slack и Xero), индексы и конвертер похожих окружений. Verifier скрыты, чтобы агент не записал ответы. На пяти бенчмарках авторы сообщают о снижении стоимости на тестовых задачах в среднем на 48% при сопоставимой или более высокой доле решённых.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Если окружение стабильно между задачами, дешевле один раз переложить его в удобную форму, чем каждый ход платить за поиск.</strong><p data-mobile-copy>Для внутренних агентов над постоянными API и БД это прямой способ сократить входные токены: экономия, по разбору авторов, приходит главным образом из результатов вызовов инструментов.</p></aside>
+<figure><div class="shot" data-full="assets/2121385051015582172-1.jpg" data-href="https://x.com/AlexGDimakis/status/2121385051015582172" data-cap="AutomationBench: доля решённых задач против общей стоимости, стрелки от базового окружения к варианту EnvOpt для нескольких моделей." data-w="1258" data-h="775" style="max-width:620px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/2121385051015582172-1.jpg" alt="График доли решённых задач против стоимости на AutomationBench: стрелки от базового окружения к EnvOpt для нескольких моделей" decoding="async" width="1258" height="775"><span>Увеличить</span></button></div><figcaption>AutomationBench: доля решённых задач против общей стоимости, стрелки от базового окружения к варианту EnvOpt для нескольких моделей.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Целевой агент решает обучающие задачи</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Исследователь читает траектории и правит окружение</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Шпаргалка и индекс экономят поиск на новых задачах</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Возьмите 50 логов своего агента над одним сервисом и посчитайте, сколько токенов уходит на ответы инструментов поиска и чтения схем.</li><li>Предлагаемый эксперимент: соберите файл-шпаргалку с эндпоинтами, полями и примерами запросов и положите его в окружение агента.</li><li>Сравните цену и долю решённых задач на отложенных задачах, которых не было в логах.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Это исследование на бенчмарках (AutomationBench, Data-Eng-Bench и др.), цифры относятся к ним. Подход имеет смысл только для стационарного окружения: при часто меняющихся данных шпаргалка устаревает. Оптимизация на AutomationBench стоила около 150 долларов.</p></div></details>
+<div class="links"><a href="https://x.com/AlexGDimakis/status/2121385051015582172" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://bespokelabs.ai/blog/envopt" target="_blank" rel="noopener">Статья EnvOpt ↗</a></div></article><article class="trick rv" id="card-3" data-card-id="2120838662254420341" data-section="memory" data-mobile-card>
+<div class="card-top"><span class="tnum">03</span><span>Паттерн · промпт</span></div>
+<h3>Держать skills и AGENTS.md в одном Home Repo с указателями на остальные репозитории</h3><div class="byline">Matt Pocock, AI Hero <span>· 12 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Сервис живёт в нескольких репозиториях: API, воркеры, общая библиотека. Агент, запущенный в одном из них, видит только его, а skills и steering-файлы копируются в каждый репозиторий и расходятся.</p><p>Home Repo — отдельный репозиторий со skills, AGENTS.md и общими документами. Агент запускается в нём, а в AGENTS.md есть раздел «Other Repos» с одной строкой на репозиторий: имя, назначение, локальный путь и откуда клонировать, если его нет. Описание конкретного кода остаётся в своём репозитории. Статья содержит готовый промпт: агент сам находит репозитории и skills, раскладывает их на shared, duplicate, repo-specific и installed и ничего не меняет до одобрения плана.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Общие правила живут в одном месте, а знания о коде остаются рядом с кодом. Агент получает обзор всех репозиториев без копий skills.</strong><p data-mobile-copy>Изменение, которое затрагивает несколько сервисов, планируется в одной сессии. Дубли skills сводятся в одну копию после одобрения плана.</p></aside>
+<figure><div class="shot" data-full="assets/home-repo.png" data-href="https://www.aihero.dev/the-home-repo-pattern" data-cap="Схема из статьи: acme/home хранит skills и tooling и указывает на остальные репозитории." data-w="966" data-h="843" style="max-width:480px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/home-repo.png" alt="Схема: репозиторий acme/home со skills и tooling указывает на acme/storefront, acme/payments-api, acme/admin-dashboard и ещё 20 репозиториев" decoding="async" width="966" height="843"><span>Увеличить</span></button></div><figcaption>Схема из статьи: acme/home хранит skills и tooling и указывает на остальные репозитории.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Home Repo: skills, AGENTS.md, общие документы</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>AGENTS.md: указатель на каждый репозиторий</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Агент открывает или клонирует нужный репозиторий</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Запустите промпт из статьи в каталоге с репозиториями и проверьте таблицу перемещений до одобрения.</li><li>В AGENTS.md Home Repo пропишите для каждого Go-сервиса путь, remote и подсказку «сначала прочитай его AGENTS.md».</li><li>Проверьте на задаче, которая трогает два сервиса: агент должен найти оба репозитория по указателям без вашей подсказки.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Это описание личной и командной практики автора без измерений. Для команды Home Repo становится общим репозиторием, в котором все запускают агентов; порядок его изменения, по мнению редакции, стоит договорить заранее. Свыше примерно 20 репозиториев автор советует группировать указатели по областям.</p></div></details>
+<div class="links"><a href="https://x.com/mattpocockuk/status/2120838662254420341" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://www.aihero.dev/the-home-repo-pattern" target="_blank" rel="noopener">Статья и промпт ↗</a></div></article><article class="trick rv" id="card-4" data-card-id="2119272702066282670" data-section="memory" data-mobile-card>
+<div class="card-top"><span class="tnum">04</span><span>Инструмент · плагин</span></div>
+<h3>Отдавать спецификацию на ревью агенту без истории беседы</h3><div class="byline">Пересказ @dani_avila7; плагин Elephant-Goldfish Model из репозитория google/ <span>· 8 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент, который вместе с вами обсуждал дизайн, считает договорённости очевидными. Когда тот же агент проверяет спецификацию, невысказанные допущения так и остаются в голове беседы, а не в документе.</p><p>В EGM «слон» держит контекст проекта и пишет черновик спецификации. «Золотые рыбки» рецензируют черновик и указанные в нём исходники без предыдущей беседы и поэтому видят только то, что записано. Решения по компромиссам и одобрение спецификации остаются за человеком. Плагин ставится в Claude Code, Codex, Antigravity и другие агенты; в Claude Code и Antigravity команды вызываются с префиксом, например /egm:egm-review.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Рецензент без памяти беседы находит то, что автор забыл записать: он видит только документ и код.</strong><p data-mobile-copy>Невысказанные допущения всплывают до реализации, пока их дёшево исправить в документе.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Слон: черновик с полным контекстом</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Рыбки: ревью только по документу и коду</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Человек: компромиссы и одобрение</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Возьмите дизайн-документ или план PR в Markdown и запустите ревью в новой сессии или через /egm:egm-review.</li><li>Список вопросов рецензента превратите в правки документа, а не в ответы в чате.</li><li>Проверьте гипотезу: после правок повторное ревью должно находить меньше невысказанных допущений.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Карточка опирается на README и пересказ; отдельного измерения качества ревью нет. Встроенный процесс рассчитан на спецификации ПО; bootstrap и отчёт о дрейфе работают только с кодовыми базами. Ревью требует агента, который умеет создавать свежие subagents, иначе EGM останавливает ревью. README отмечает, что это не официально поддерживаемый продукт Google.</p></div></details>
+<div class="links"><a href="https://x.com/dani_avila7/status/2119272702066282670" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/google/elephant-goldfish-model" target="_blank" rel="noopener">Репозиторий EGM ↗</a></div></article><article class="trick rv" id="card-5" data-card-id="2120029347948220500" data-section="memory" data-mobile-card>
+<div class="card-top"><span class="tnum">05</span><span>Документация · промпт</span></div>
+<h3>Сказать Fable 5.2, кто владеет кодом, и проверять лишние изменения</h3><div class="byline">Simon Willison о гайде Anthropic по промптам для Fable 5.2 <span>· 10 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент добавляет новый код рядом со старым, хотя рядом уже есть похожая функция. Дубли копятся, а замеченные проблемы он только перечисляет.</p><p>В гайде Anthropic по Fable 5.2 есть раздел «Say who owns the code». Если промпт ничего не говорит о владельце кода или называет код чужим, модель достраивает существующую структуру. Фраза «You are the owner and long-term maintainer of this codebase, and its design is up to you» в тестах Anthropic на небольших задачах подняла долю объединения дублей с менее 10% до примерно 75% запусков. Цена: выходные токены выросли примерно на 70–80%, появлялись незапрошенные тесты и документация, иногда менялось поведение существующей возможности продукта.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Одна фраза о владении кодом меняет готовность модели к рефакторингу, но расширяет diff и не отменяется запретом на «drive-by refactors».</strong><p data-mobile-copy>В своём сервисе можно включать эту фразу для задач на чистку и выключать для точечных правок. Правило ограничения объёма её не отменяет: в тестах модель всё равно объединяла дубли больше чем в половине запусков.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Выбор режима <span>· редакция</span></p><ol class="mini-flow branches"><li><span class="flow-index" aria-hidden="true">01</span><span>Без фразы: агент достраивает рядом</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>С фразой: объединяет дубли</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Цена: шире diff, +70–80% выходных токенов</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Для задачи на чистку модуля добавьте фразу о владении в системный промпт агента.</li><li>Для точечных правок в чужом коде фразу не используйте и проверяйте diff на незапрошенные изменения.</li><li>Сравнивайте итоговый diff с отчётом агента: по словам гайда, итоговое резюме PR от Fable 5.2 часто пропускает мелкие изменения.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Измерения сделаны Anthropic на небольших задачах; на крупной кодовой базе эффект не показан. В посте Simon Willison совет пересказан как «This codebase is yours»; в текущей версии гайда стоит фраза о владельце и долгосрочном мейнтейнере.</p></div></details>
+<div class="links"><a href="https://x.com/simonw/status/2120029347948220500" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/prompting-claude-fable-5-2" target="_blank" rel="noopener">Гайд Anthropic ↗</a></div></article><article class="trick rv" id="card-6" data-card-id="2119898687803621427" data-section="memory" data-mobile-card>
+<div class="card-top"><span class="tnum">06</span><span>Гайд</span></div>
+<h3>Сначала дать агенту способ проверить результат, потом поднимать effort и модель</h3><div class="byline">Claude Developers; автор гайда Addy Osmani <span>· 10 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Когда агент не справляется, обычно сразу переключают модель на самую дорогую или поднимают effort до максимума. Счёт растёт, а причина часто в том, что агенту нечем проверить свою работу.</p><p>Гайд предлагает порядок: сначала дать модели проверку (тест, сборку или скрипт, который вызывает эндпоинт), затем поднять effort на один уровень и только потом перейти на модель выше с меньшим effort. Если результат проверяется автоматически, всё можно прогнать на низком уровне и перезапустить на высоком только провалы. На подмножестве SWE-bench Pro Opus 5.5 на low с перезапуском провалов на high прошёл около 97% задач примерно за 0,17 доллара на задачу против 95,3% за 0,29 при high для всех задач. Для subagents, которые ищут по файлам и читают логи, гайд советует Haiku 5.5 или Sonnet 5.5.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Автоматическая проверка часто выгоднее лишнего уровня effort: с ней можно прогонять всё на низком effort и платить дороже только за провалы.</strong><p data-mobile-copy>В Go-сервисе такой проверкой могут служить <code>go test</code>, сборка и скрипт с curl к эндпоинту (адаптация редакции). По гайду, проверка часто дешевле и быстрее, чем подъём effort.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Есть проверка: тест, сборка, вызов эндпоинта</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Прогон на low</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Перезапуск провалов на high</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Добавьте в AGENTS.md точную команду проверки для каждого сервиса и требование запускать её перед завершением.</li><li>Предлагаемый эксперимент: прогоните пакет задач на низком effort, а провалившиеся повторите на высоком.</li><li>Сравните долю решённых задач и цену с прогоном, где всё сразу шло на high.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Цифры получены Anthropic на подмножестве SWE-bench Pro и на прайсе Claude API. Совет переводить subagents на маленькие модели относится к побочным задачам, где ошибку легко заметить.</p></div></details>
+<div class="links"><a href="https://x.com/ClaudeDevs/status/2119898687803621427" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://claude.dev/blog/which-claude-model-should-you-build-with" target="_blank" rel="noopener">Гайд по выбору модели ↗</a></div></article></div></section><section class="wrap topic" id="tools"><div class="topic-intro"><div><div class="shead"><span class="num">9</span><h2>Инструменты и интеграции</h2></div><p class="lead">Code Mode в Claude Code, self-hosted Managed Agents, записанные browser flows, WebMCP в UI-компонентах, события вместо polling и одна утечка секретов, которую стоит закрыть сегодня.</p></div></div><div class="grid" data-mobile-stack="grid"><article class="trick rv" id="card-7" data-card-id="2121652838447169783" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">07</span><span>Claude Code · experimental</span></div>
+<h3>Собрать цепочку вызовов инструментов в один шаг через Code Mode</h3><div class="byline">Pedro Galaviz о документации Claude Code <span>· 15 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент делает десятки мелких вызовов: найти файл, прочитать, поправить, запустить тесты. Модель читает каждый результат, прежде чем решить, что делать дальше, даже когда из вывода нужна одна строка.</p><p>В Code Mode Claude пишет кусок JavaScript, который сам вызывает инструменты: запускает команды параллельно, передаёт результат одного вызова в следующий и возвращает модели только нужную часть вывода. Включается переменной <code>CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1</code> в Claude Code v2.1.323 и новее. Каждый вызов из кода проходит через ваши deny и ask правила и PreToolUse hooks. В auto mode классификатор проверяет код целиком, а не каждый вызов, и не видит значений, вычисленных во время работы.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Пакетная обработка вызовов сокращает переписку с моделью, но меняет точку проверки: в auto mode проверяется код, а не каждый вызов.</strong><p data-mobile-copy>Подходит для правок, которые повторяются во многих файлах, и для поиска с фильтрацией перед чтением. Код можно проверять собственным PreToolUse hook на инструмент REPL, читая <code>tool_input.code</code>.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Задача с множеством связанных вызовов</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Claude пишет JavaScript и запускает его</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Модель видит только нужный вывод</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Включите режим переменной <code>CLAUDE_CODE_EXPERIMENTAL_CODE_MODE=1</code> и дайте задачу вроде «найди все битые локальные ссылки в Markdown».</li><li>Откройте Ctrl+O и прочитайте сгенерированный код, прежде чем доверять режиму массовые правки.</li><li>Если работаете в auto mode, оставьте важные запреты в deny-правилах или hooks: классификатор не видит путей, вычисленных во время работы.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Режим экспериментальный и может измениться. Не работает с -p, Agent SDK, VS Code, Desktop, облачными сессиями, через Bedrock или gateway, с OpenTelemetry-экспортом и при ZDR. Ожидающий код останавливается через 10 минут; фоновый работает до двух часов, если сессия начата в auto или bypassPermissions mode.</p></div></details>
+<div class="links"><a href="https://x.com/pggalaviz/status/2121652838447169783" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://code.claude.com/docs/en/code-mode" target="_blank" rel="noopener">Документация Code Mode ↗</a></div></article><article class="trick rv" id="card-8" data-card-id="2120938988165091693" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">08</span><span>API · private beta</span></div>
+<h3>Запускать Managed Agents в своём контуре: harness, sandbox, секреты и история у себя</h3><div class="byline">Claude Developers (Anthropic) <span>· 12 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент, который чинит сборки и разбирает алерты, работает с внутренним кодом и системами без присмотра. Отдавать его состояние и доступы во внешний сервис нельзя, а строить свою платформу агентов долго.</p><p>В self-hosted режиме в вашей среде работают сервер Managed Agents, его PostgreSQL и воркеры, которые запускают shell и файловые инструменты сессий в sandbox. Запросы к модели идут туда, куда вы решите: в Anthropic, Bedrock, Agent Platform, Foundry или свой gateway. Архитектура держит четыре принципа: harness отделён от sandbox, секреты не попадают в sandbox (для MCP-инструментов и поддерживаемых API-вызовов их подставляет прокси снаружи), сеть ограничивается списком разрешённых хостов, каждая сессия оставляет полную запись, которая экспортируется по OpenTelemetry.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Главная идея переносится и на свой агентный сервис: «мозг» и «руки» разделены, а секреты и сеть контролируются вне sandbox.</strong><p data-mobile-copy>Для своего агентного сервиса это готовая схема: воркеры опрашивают среду и берут свободные сессии, у каждой сессии свой sandbox, журнал хранится вне sandbox, аудит идёт через существующий стек мониторинга.</p></aside>
+<figure><div class="shot" data-full="assets/2120938988165091693-1.jpg" data-href="https://x.com/ClaudeDevs/status/2120938988165091693" data-cap="Схема из анонса: сервер, sandbox и PostgreSQL в среде клиента; вызовы модели выходят за границу сети." data-w="3704" data-h="1608" style="max-width:900px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/2120938988165091693-1.jpg" alt="Схема: в среде клиента Managed Agents Server связан с клиентскими приложениями, внутренними инструментами, sandbox и PostgreSQL; вызовы модели уходят к Claude через Messages API, Bedrock, Agent Platform или Foundry" decoding="async" width="3704" height="1608"><span>Увеличить</span></button></div><figcaption>Схема из анонса: сервер, sandbox и PostgreSQL в среде клиента; вызовы модели выходят за границу сети.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Сервер и PostgreSQL в вашем контуре</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Воркеры берут сессии и запускают sandbox</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Секреты через прокси, сеть по allowlist, журнал в OTel</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Сверьте свой агентный сервис с четырьмя принципами: где лежат секреты, может ли код из sandbox ходить в произвольную сеть, есть ли журнал вызовов.</li><li>Для агента, который чинит сборки, ограничьте сеть git-хостом и реестром пакетов, как предлагает статья.</li><li>Если доступ к beta есть, поднимите quickstart на Docker Compose и проверьте, что запись сессии видна в вашем OTel-коллекторе.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Private beta: доступ через аккаунт-команду Anthropic. Quickstart на Docker Compose поднимает 10 воркеров, каждый ведёт одну сессию; для production Anthropic рекомендует два Helm-чарта (Deploy on Kubernetes).</p></div></details>
+<div class="links"><a href="https://x.com/ClaudeDevs/status/2120938988165091693" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://claude.com/resources/articles/self-hosted-claude-managed-agents" target="_blank" rel="noopener">Статья Anthropic ↗</a><a href="https://platform.claude.com/docs/en/managed-agents/self-hosted/quickstart" target="_blank" rel="noopener">Quickstart ↗</a></div></article><article class="trick rv" id="card-9" data-card-id="2121392259446763644" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">09</span><span>Инструмент · эксперимент</span></div>
+<h3>Записать задачу в браузере один раз и повторять её HTTP-запросами</h3><div class="byline">@RaillyHugo об agent-browser (Vercel Labs); репост @ctatedev <span>· 14 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент каждый день проверяет статус заказа или цифры в дашборде. Каждый раз он открывает браузер, читает страницу целиком и тратит токены на одно и то же.</p><p>Saved flows в agent-browser записывают команды задачи вместе с JSON-запросами, которые сайт отправлял сам. Запросы сохраняются без учётных данных, а при повторе нужный запрос отправляется напрямую с проверкой формы ответа. На новый запуск передаются новые параметры, возвращаются только запрошенные поля. Если запуск не удался из-за изменений на сайте, flow помечается непроверенным. По данным автора, 13,7 КБ страницы превращаются в 328 байт данных.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Повторяемую браузерную задачу выгоднее превратить в записанный API-вызов, чем каждый раз читать страницу.</strong><p data-mobile-copy>Это паттерн и для своих агентов: один раз пройти UI, сохранить первичные запросы и дальше вызывать их с проверкой схемы ответа.</p></aside>
+<figure><div class="shot" data-full="assets/2121392259446763644-1.jpg" data-href="https://x.com/RaillyHugo/status/2121392259446763644" data-cap="Иллюстрация автора: что агент читает со страницы и что возвращает повтор записанного flow." data-w="2160" data-h="2160" style="max-width:520px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/2121392259446763644-1.jpg" alt="Карточка agent-browser flow: агент читает 13,7 КБ за 5,8 с, повтор возвращает 328 байт за 0,9 с, в 42 раза меньше чтения" decoding="async" width="2160" height="2160"><span>Увеличить</span></button></div><figcaption>Иллюстрация автора: что агент читает со страницы и что возвращает повтор записанного flow.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Агент проходит задачу в браузере</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>flow save: команды и JSON-запросы без секретов</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>flow run: прямой запрос с новыми параметрами</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Выберите одну ежедневную задачу агента в браузере, например проверку статуса во внутренней админке.</li><li>Запишите её как flow и сравните объём данных, который получает агент, до и после.</li><li>Проверьте поведение при изменении страницы: flow должен пометиться непроверенным, а не вернуть старые данные.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Функцию анонсировали как эксперимент. Нужен первичный JSON: запрос сайта к API или JSON, встроенный в HTML. Учётные данные не сохраняются, поэтому при ответе 401 или 403 запуск останавливается с credential_not_sendable, и для админок с авторизацией повтор может не сработать. Соотношение 13,7 КБ к 328 байтам — пример автора.</p></div></details>
+<div class="links"><a href="https://x.com/RaillyHugo/status/2121392259446763644" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/vercel-labs/agent-browser" target="_blank" rel="noopener">agent-browser ↗</a></div></article><article class="trick rv" id="card-10" data-card-id="2120966861252960508" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">10</span><span>Библиотека · WebMCP</span></div>
+<h3>Отдать браузерному агенту UI-компоненты через WebMCP с собственным allow</h3><div class="byline">Chris Tate (@ctatedev, Vercel Labs) <span>· 12 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент в браузере кликает по интерфейсу по скриншотам и селекторам. Приложение не знает, какой агент нажимает кнопку, и не может отказать в опасном действии.</p><p>UI SDK — библиотека из 50+ поведений (popup, selection, typeahead, focus) для React, Vue, Svelte, Solid и Web Components. registerTools публикует через <code>document.modelContext</code> три инструмента: snapshot, act и query. Для чужого браузерного агента задаётся отдельная функция allow, которая вызывается на каждый шаг и может вернуть false. Шаги по элементам с <code>data-agent-confirm</code> приходят с флагом <code>step.confirm</code>, и allow решает, отдать ли их человеку. snapshot и query помечены readOnlyHint, act — consequentialHint.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Приложение само описывает агенту свои действия и само решает, какие из них разрешить.</strong><p data-mobile-copy>Для внутренних админок это способ дать агенту структурированный доступ к интерфейсу вместо кликов по координатам. Подтверждение опасных кнопок появляется, только если allow написан так, чтобы его требовать.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Компоненты UI SDK в приложении</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>registerTools: snapshot, act, query через document.modelContext</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>allow и data-agent-confirm на каждый шаг</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Найдите в своём фронтенде одну форму, которой агент пользуется чаще всего, и отметьте необратимые кнопки <code>data-agent-confirm</code>; в allow возвращайте false для шагов с <code>step.confirm</code>.</li><li>Подключите registerTools с allow, который спрашивает подтверждение на каждое нажатие.</li><li>Проверьте в браузере с поддержкой <code>document.modelContext.registerTool</code>: без неё registerTools ничего не делает.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Нужна поддержка WebMCP в браузере. В посте измерений нет. Для бэкенд-разработчика это применимо через внутренние веб-интерфейсы.</p></div></details>
+<div class="links"><a href="https://x.com/ctatedev/status/2120966861252960508" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/vercel-labs/ui" target="_blank" rel="noopener">UI SDK ↗</a><a href="https://ui-sdk.dev/docs/agents/connect-an-agent/webmcp" target="_blank" rel="noopener">WebMCP в документации ↗</a></div></article><article class="trick rv" id="card-11" data-card-id="2120089050476368318" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">11</span><span>Кейс · production</span></div>
+<h3>Заменить LLM в классификации тикетов решающей моделью через режим DUAL</h3><div class="byline">Mario Zechner рекомендует разбор инженеров Amazon в блоге Strands <span>· 10 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Сервис размечает тикеты по 20 категориям через LLM с длинным системным промптом и JSON-ответом. На большом потоке это дорого и медленно, а переключиться на другую модель страшно без сравнения на реальных данных.</p><p>Инженеры Amazon перевели разметку на Strands Decider: решающая модель не генерирует текст, а возвращает вероятности для заданных вариантов и уверенность. 20 категорий переписали в критерии в одно-два предложения плюс вариант «none». Переход шёл через трёхпозиционный флаг в AppConfig: BEDROCK, DUAL (обе модели параллельно, применяется ответ Sonnet, ответы сравниваются) и DECIDER. По их таблице среднее время вызова упало с 4 215 до 897 мс, токены на тикет — с 6 724 до 2 010.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Задачу выбора из закрытого списка можно отдать решающей модели, а переход проверить режимом, где старая и новая модели работают параллельно.</strong><p data-mobile-copy>Сами авторы советуют копировать трёхпозиционный переключатель независимо от модели. В своём сервисе это флаг конфигурации, параллельный вызов и сравнение ответов до переключения трафика.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>BEDROCK: только старая модель</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>DUAL: обе параллельно, ответы сравниваются</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>DECIDER: только новая модель</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Найдите в своём сервисе вызов LLM, который выбирает из фиксированного списка: категория, маршрут, да/нет.</li><li>Добавьте флаг с тремя состояниями и в состоянии DUAL пишите в лог оба ответа без влияния на пользователя.</li><li>Переключайте трафик только после того, как расхождение на реальных данных ниже вашего порога.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Цифры — один внутренний кейс Amazon и блог разработчика модели. Окно Strands Decider 4 096 токенов: длинные тикеты урезаются по старым комментариям. На той же неделе Google выпустил Gemini Decisions API с той же идеей, см. следующую карточку.</p></div></details>
+<div class="links"><a href="https://x.com/badlogicgames/status/2120089050476368318" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://strandsagents.com/blog/amazon-saves-millions-replacing-sonnet-with-strands-decider/" target="_blank" rel="noopener">Разбор в блоге Strands ↗</a></div></article><article class="trick rv" id="card-12" data-card-id="2120581155078729728" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">12</span><span>API · запуск</span></div>
+<h3>Отдать выбор инструмента, маршрута и проверку политики Gemini Decisions API</h3><div class="byline">Sundar Pichai (Google) об API от Google DeepMind <span>· 11 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Внутри агента много маленьких решений из закрытого списка: какой инструмент вызвать, в какую модель направить запрос, нарушает ли текст политику. Генеративная модель отвечает на каждое текстом, и вы платите за выходные токены и задержку.</p><p>Decisions API принимает один вход (текст, изображения, аудио, видео, PDF до 256K токенов) и до 1 000 независимых вопросов в одном запросе. Gemini Decision 1 не генерирует ответ, а оценивает варианты за один проход. Типы вопросов: да/нет, выбор из 2–255 вариантов и оценка по упорядоченной рубрике. Каждый ответ содержит уверенность от 0 до 1, чтобы код отправлял неоднозначные случаи на запасной путь или человеку. Входные токены стоят 0,10 доллара за миллион, выходные не тарифицируются.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Решения из закрытого списка можно вынести из генеративной модели в отдельный вызов с калиброванной уверенностью и порогом для эскалации.</strong><p data-mobile-copy>В своём сервисе (через REST, если нет SDK для вашего языка) такой вызов может заменить LLM-классификатор с JSON-ответом и дать явный порог уверенности. Выигрыш на своих данных нужно измерить.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Один вход и до 1 000 вопросов</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Оценка вариантов за один проход</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Уверенность ниже порога: запасной путь или человек</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Выпишите решения своего агента, у которых закрытый список ответов: маршрутизация, выбор инструмента, проверка политики.</li><li>Предлагаемый эксперимент: прогоните 200 размеченных примеров через Decisions API и подберите порог уверенности для эскалации.</li><li>Сравните точность, задержку и цену с текущим LLM-классификатором на тех же примерах.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Цифры о калибровке и цене даёт Google; на ваших данных их нужно проверить. Задержка 150–250 мс указана для контекстов до 16K токенов. API в Gemini API через Google AI Studio, версия v1beta.</p></div></details>
+<div class="links"><a href="https://x.com/sundarpichai/status/2120581155078729728" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://blog.google/innovation-and-ai/technology/developers-tools/gemini-decisions-api/" target="_blank" rel="noopener">Блог Google ↗</a></div></article><article class="trick rv" id="card-13" data-card-id="2119886198395318657" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">13</span><span>MCP · changelog</span></div>
+<h3>Подписать агента на события деплоя вместо polling через Vercel MCP</h3><div class="byline">Vercel <span>· 9 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент, которому поручили «следи за продом и почини, если деплой упадёт», каждые несколько минут опрашивает API. Это тратит токены и запросы и всё равно реагирует с задержкой.</p><p>Vercel MCP теперь публикует события. Агент один раз подписывается на <code>deployment.succeeded</code> или <code>deployment.error</code> с фильтром по команде, проекту и окружению. За подпиской стоит обычный Vercel webhook с истечением срока: обновление продлевает подписку, брошенная истекает сама. Доставки подписаны по Standard Webhooks; у event webhooks свой лимит на команду, и они не расходуют лимит в 40 webhooks аккаунта.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>MCP-сервер умеет будить агента событием, а срок жизни подписки снимает проблему забытых webhooks.</strong><p data-mobile-copy>Адаптация редакции: тот же приём можно повторить в своём MCP-сервере, с подпиской, у которой истекает срок, и подписанными доставками вместо опроса статуса.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Агент подписывается на событие через MCP</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Vercel держит webhook с истечением срока</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Подписанная доставка запускает агента</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Найдите у своего агента цикл опроса статуса: деплой, CI, очередь задач.</li><li>Если используете Vercel, замените опрос подпиской на <code>deployment.error</code> по рецепту AI SDK «Receive MCP Webhook Events».</li><li>Для своего MCP-сервера проверьте два свойства: подпись доставки и автоматическое истечение подписки.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Применимо напрямую только к проектам на Vercel; приёмную сторону нужно реализовать самому. Changelog короткий, деталей о гарантиях доставки нет.</p></div></details>
+<div class="links"><a href="https://x.com/vercel_dev/status/2119886198395318657" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://vercel.com/changelog/vercel-mcp-now-supports-mcp-events" target="_blank" rel="noopener">Changelog Vercel ↗</a></div></article><article class="trick rv" id="card-14" data-card-id="2119290063343456504" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">14</span><span>Безопасность · исследование</span></div>
+<h3>Проверить settings.local.json: «don't ask again» может сохранить пароль в репозитории</h3><div class="byline">Intel Cyber Digest пересказывает исследование Apiiro <span>· 8 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Вы разрешили Claude Code команду с паролем к базе и нажали «Yes, and don't ask again». Правило с полным текстом команды легло в .claude/settings.local.json, и этот файл может попасть в git.</p><p>Claude Code записывает правило в локальный файл настроек; иногда это шаблон, но часто команда сохраняется как есть, вместе с секретом. Файл исключается глобальным gitignore машины, но это исключение не действует на уровне репозитория: файл попадёт в git при клонировании на другую машину или если папка позже станет репозиторием, а иногда Claude Code сам коммитит изменения файла. Apiiro нашла 1 122 публичные копии таких файлов с секретами, включая 379 паролей к БД и 23 ключа AWS. По данным Ars Technica, 215 из найденных секретов не заметили gitleaks и TruffleHog.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>«Local» в имени файла не значит, что git его не увидит. Одобренная команда с секретом становится секретом в репозитории.</strong><p data-mobile-copy>Проверка занимает минуту и закрывает реальную утечку. Boris Cherny из Anthropic советует auto mode и сканеры секретов, но в auto mode команды тоже могут сохраняться.</p></aside>
+<figure><div class="shot" data-full="assets/ars-claudsecrets.png" data-href="https://arstechnica.com/ai/2026/11/claude-code-settings-files-expose-thousands-of-secrets-on-github/" data-cap="Диаграмма Apiiro из статьи Ars Technica: 1 379 различных секретов в публичных settings.local.json по типам." data-w="1400" data-h="846" style="max-width:700px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/ars-claudsecrets.png" alt="Диаграмма типов утёкших секретов: 398 API-токенов сервисов, 379 паролей к БД, 149 ключей AI-моделей, 23 ключа AWS и другие" decoding="async" width="1400" height="846"><span>Увеличить</span></button></div><figcaption>Диаграмма Apiiro из статьи Ars Technica: 1 379 различных секретов в публичных settings.local.json по типам.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>«Don't ask again» на команде с секретом</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Правило в .claude/settings.local.json</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Файл отслеживается git и уходит в remote</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Выполните <code>git ls-files .claude/</code> во всех репозиториях и проверьте, отслеживается ли settings.local.json.</li><li>Найдите в allow-правилах пароли, токены и строки подключения; уберите их и смените скомпрометированные значения.</li><li>Передавайте секреты через переменные окружения или менеджер секретов, а не в тексте одобряемой команды.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Цифры из исследования Apiiro, опубликованного 5 ноября, в пересказе Ars Technica и автора поста. Сравнение 16 агентов в карточку не вошло: его методика в сохранённых источниках не раскрыта.</p></div></details>
+<div class="links"><a href="https://x.com/IntCyberDigest/status/2119290063343456504" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://arstechnica.com/ai/2026/11/claude-code-settings-files-expose-thousands-of-secrets-on-github/" target="_blank" rel="noopener">Ars Technica ↗</a><a href="https://apiiro.com/blog/coding-agents-leaking-secrets-github-dont-ask-again" target="_blank" rel="noopener">Исследование Apiiro ↗</a></div></article><article class="trick rv" id="card-15" data-card-id="2120557307029602795" data-section="tools" data-mobile-card>
+<div class="card-top"><span class="tnum">15</span><span>Инструмент · обновление</span></div>
+<h3>Дать каждой ветке в worktree свой локальный адрес через portless</h3><div class="byline">Chris Tate (Vercel Labs) <span>· 11 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Два агента работают в worktree <code>feat/checkout</code> и <code>fix/checkout</code> и поднимают один и тот же сервис. Порты конфликтуют, а адреса совпадают, и проверка в браузере открывает не ту версию.</p><p>portless выдаёт локальным dev-серверам имена вида <code>shop.localhost</code> вместо портов. Новая настройка <code>{ "worktree": { "prefix": "branch" } }</code> добавляет к имени ветку целиком. По умолчанию в worktree берётся только последний сегмент ветки после <code>/</code>, поэтому <code>feat/checkout</code> и <code>fix/checkout</code> раньше получали одно имя <code>checkout</code>, а теперь разные адреса.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Параллельному агенту нужен свой стабильный адрес для проверки результата, а не только свой worktree.</strong><p data-mobile-copy>Агент и человек открывают в браузере ровно ту версию, которую проверяют, без договорённостей о портах.</p></aside>
+<figure><div class="shot" data-full="assets/2120557307029602795-1.jpg" data-href="https://x.com/ctatedev/status/2120557307029602795" data-cap="Скриншот из поста: префикс по ветке и таблица маршрутов portless для трёх worktree." data-w="1600" data-h="1600" style="max-width:520px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/2120557307029602795-1.jpg" alt="Терминал: portless.json с prefix branch, git worktree list с тремя ветками и portless list с маршрутами для feat-checkout и fix-checkout" decoding="async" width="1600" height="1600"><span>Увеличить</span></button></div><figcaption>Скриншот из поста: префикс по ветке и таблица маршрутов portless для трёх worktree.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>git worktree на каждую ветку</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>portless: имя по ветке</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Свой адрес у feat/checkout и fix/checkout</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Если агенты работают параллельно в worktree, включите настройку <code>{ "worktree": { "prefix": "branch" } }</code> по документации portless.</li><li>Добавьте в AGENTS.md, как агенту узнать свой адрес: <code>portless get</code> или <code>portless list</code>.</li><li>Проверьте, что два одновременно запущенных worktree отвечают на разных адресах.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Небольшое обновление инструмента для dev-окружения; применимо, если локальные сервисы поднимаются через portless.</p></div></details>
+<div class="links"><a href="https://x.com/ctatedev/status/2120557307029602795" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/vercel-labs/portless" target="_blank" rel="noopener">portless ↗</a></div></article></div></section><section class="wrap topic" id="workflow"><div class="topic-intro"><div><div class="shead"><span class="num">5</span><h2>Skills и рабочие процессы</h2></div><p class="lead">Повтор после проваленной проверки, план от дорогой модели для дешёвой, аудит безопасности с независимой проверкой находок и PR, которые человек успевает прочитать.</p></div></div><div class="grid" data-mobile-stack="grid"><article class="trick rv" id="card-16" data-card-id="2121313048820617645" data-section="workflow" data-mobile-card>
+<div class="card-top"><span class="tnum">16</span><span>Claude Code · hooks</span></div>
+<h3>Возвращать Claude к исправлению из Stop hook кодом выхода 2</h3><div class="byline">Lydia Hallie (Anthropic, Claude Code), пост и ответ в треде <span>· 13 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Stop hook запускает тесты после работы агента, тесты падают, а Claude всё равно завершает задачу. Причина — код выхода hook.</p><p>Exit 2 блокирует остановку: stderr hook уходит Claude, и он продолжает работу с текстом ошибки. Exit 1 неблокирующий, Claude просто заканчивает, даже если проверка упала; к тому же exit 1 может означать сбой самого hook. Автор предлагает шаблон <code>[your command] &gt;&amp;2 || { echo failed; exit 2; }</code>. Чтобы не уйти в бесконечный цикл, hook проверяет поле <code>stop_hook_active</code>; Claude Code сам отменяет Stop hook после восьми блокировок подряд без вызова инструментов.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Для проверки, которая должна вернуть агента к работе, нужен exit 2 и вывод в stderr; exit 1 ничего не блокирует.</strong><p data-mobile-copy><code>go test ./...</code> в Stop hook возвращает агента к исправлению с текстом ошибки, а не отпускает его с красными тестами. Число повторов ограничено лимитом блокировок, его поднимает переменная <code>CLAUDE_CODE_STOP_HOOK_BLOCK_CAP</code>.</p></aside>
+<figure><div class="shot" data-full="assets/2121313048820617645-1.jpg" data-href="https://x.com/lydiahallie/status/2121313048820617645" data-cap="Схема из поста: exit 1 завершает работу при проваленных тестах, exit 2 возвращает Claude ошибку через stderr." data-w="2400" data-h="1350" style="max-width:900px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/2121313048820617645-1.jpg" alt="Схема: при exit 1 Stop hook с проваленными тестами ведёт к завершению; при exit 2 Claude читает ошибку из stderr, правит код, и тот же hook проходит" decoding="async" width="2400" height="1350"><span>Увеличить</span></button></div><figcaption>Схема из поста: exit 1 завершает работу при проваленных тестах, exit 2 возвращает Claude ошибку через stderr.</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Claude завершает ход</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Stop hook: go test ./... &gt;&amp;2</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Провал: exit 2, stderr уходит Claude</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Рецепт из поста и документации hooks</p><ol class="action-steps" data-mobile-copy><li>Оберните проверку в Stop hook: <code>go test ./... &gt;&amp;2 || { echo failed; exit 2; }</code>.</li><li>Добавьте в начало скрипта выход при <code>stop_hook_active</code> = true, если хотите ровно один повтор.</li><li>Проверьте вручную: сломайте тест и убедитесь, что Claude получает текст ошибки и продолжает работу.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Поведение описано для Claude Code; в других harness коды выхода hooks нужно проверять отдельно. Лимит в восемь блокировок сбрасывается любым вызовом инструмента.</p></div></details>
+<div class="links"><a href="https://x.com/lydiahallie/status/2121313048820617645" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://code.claude.com/docs/en/hooks-guide" target="_blank" rel="noopener">Hooks guide ↗</a></div></article><article class="trick rv" id="card-17" data-card-id="2119650353142747181" data-section="workflow" data-mobile-card>
+<div class="card-top"><span class="tnum">17</span><span>Личный опыт</span></div>
+<h3>Прятать описание PR от агента в &lt;details&gt; и оставлять сверху человеческое вступление</h3><div class="byline">Simon Willison <span>· 9 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Большую часть PR в своих проектах Simon Willison теперь получает от Claude Code или Codex. Их описания точные и подробные, поэтому ревьюер видит стену текста и не понимает, стоит ли вникать.</p><p>Автор оставляет сверху короткое человеческое вступление о том, зачем нужен PR, а полное описание агента прячет в <code>&lt;details&gt;&lt;summary&gt;</code> с названием модели в summary. GitHub Markdown поддерживает эти теги в описаниях PR и комментариях, поэтому подробности остаются в PR, но свёрнуты.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Описание агента полезно как справка, но решение «читать ли дальше» должна давать человеческая строка сверху.</strong><p data-mobile-copy>Ревьюер быстро понимает цель изменения, а подробный отчёт агента остаётся доступен в один клик.</p></aside>
+<figure><div class="shot" data-full="assets/details-summary-pr.gif" data-href="https://simonwillison.net/2026/Nov/9/details-summary/" data-cap="Анимация из заметки: вступление автора сверху, описание агента раскрывается по клику на «Claude Opus 5.5»." data-w="860" data-h="605" style="max-width:430px"><button class="zoom" type="button" aria-label="Увеличить изображение"><img src="assets/details-summary-pr.gif" alt="Анимация PR на GitHub: короткое вступление автора, под ним свёрнутая строка Claude Opus 5.5, по клику раскрывается полное описание с заголовком The hook" decoding="async" width="860" height="605"><span>Увеличить</span></button></div><figcaption>Анимация из заметки: вступление автора сверху, описание агента раскрывается по клику на «Claude Opus 5.5».</figcaption></figure>
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Агент пишет подробное описание</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Человек пишет вступление сверху</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Описание агента свёрнуто в &lt;details&gt;</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Добавьте в AGENTS.md правило: полное описание PR оборачивать в <code>&lt;details&gt;&lt;summary&gt;Model&lt;/summary&gt;…&lt;/details&gt;</code>.</li><li>Перед открытием PR оставьте сверху вступление, за которое вы ручаетесь: какую проблему решает изменение и на что смотреть. Его можно написать самому или выбрать из текста агента.</li><li>Через неделю спросите ревьюеров, стало ли быстрее решать, нужен ли детальный просмотр.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Личная практика автора без измерений. Метод не сокращает сам текст агента, а меняет порядок чтения.</p></div></details>
+<div class="links"><a href="https://x.com/simonw/status/2119650353142747181" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://simonwillison.net/2026/Nov/9/details-summary/" target="_blank" rel="noopener">Заметка в блоге ↗</a></div></article><article class="trick rv" id="card-18" data-card-id="2121456841767235997" data-section="workflow" data-mobile-card>
+<div class="card-top"><span class="tnum">18</span><span>Skill · open source</span></div>
+<h3>Поручить дорогой модели аудит и планы, а реализацию отдать дешёвой через shadcn/improve</h3><div class="byline">@doodi_dev о skill shadcn/improve <span>· 14 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Самая сильная модель тратит большую часть токенов на механическую реализацию, хотя её преимущество в понимании кода и выборе того, что делать.</p><p>Skill improve никогда не меняет код. Дорогая модель картографирует репозиторий, параллельными subagents проверяет девять категорий (корректность, безопасность, производительность, тесты и др.) с доказательствами <code>file:line</code> и пишет план на каждую выбранную находку. Планы самодостаточны: пути, выдержки текущего кода, команды проверки после каждого шага, явные границы и STOP-условия, коммит, на котором план написан. Команда <code>/improve execute</code> запускает дешёвого исполнителя в отдельном worktree и проверяет diff по плану; слияние остаётся за человеком.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Реализацию по плану, написанному для самого слабого исполнителя, с командами проверки и условиями остановки можно отдать дешёвой модели.</strong><p data-mobile-copy>Точные команды сборки, тестов и линтера вашего репозитория становятся обязательными проверками плана (в Go-проекте, например, <code>go test</code>, если skill его найдёт), а дрейф кода ловится по сохранённому коммиту.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Дорогая модель: аудит и находки с file:line</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>План: шаги, проверки, STOP-условия</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Дешёвая модель в worktree, ревью diff по плану</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Запустите <code>/improve quick</code> на одном сервисе и выберите одну находку для плана.</li><li>Прочитайте план: есть ли в нём точные команды проверки вашего проекта и условия остановки.</li><li>Выполните план через <code>/improve execute</code> на более дешёвой модели и сравните её diff с планом.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Пост — пересказ README; измерений экономии нет. Качество зависит от того, насколько точно skill нашёл команды сборки и тестов вашего репозитория.</p></div></details>
+<div class="links"><a href="https://x.com/doodi_dev/status/2121456841767235997" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/shadcn/improve" target="_blank" rel="noopener">shadcn/improve ↗</a></div></article><article class="trick rv" id="card-19" data-card-id="2121440495276798005" data-section="workflow" data-mobile-card>
+<div class="card-top"><span class="tnum">19</span><span>Skill · open source</span></div>
+<h3>Проводить аудит безопасности агентом, где каждую находку опровергает другой агент</h3><div class="byline">Cloudflare, security-audit-skill (из подборки @so_ainsight) <span>· 14 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Агент, которого попросили найти уязвимости, возвращает длинный список правдоподобных находок. Половину приходится перепроверять руками, а покрытие кода неизвестно.</p><p>Skill ведёт аудит в шесть фаз: разведка, поиск по журналу покрытия, проверка кандидатов, структурированный вывод, независимая проверка записей и отчёт. Каждого кандидата получает новый verifier, который пытается его опровергнуть: агент, нашедший проблему, никогда её не проверяет. Находки пишутся в findings.json как confirmed, needs_validation или rejected и проверяются по JSON-схеме; повторные прогоны используют прошлый журнал покрытия.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Отделите поиск от проверки: находку подтверждает агент со свежим контекстом, а результат валидируется по схеме.</strong><p data-mobile-copy>На выходе машиночитаемый список с вердиктами, на который опираются следующие прогоны.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Схема подхода <span>· редакция</span></p><ol class="mini-flow"><li><span class="flow-index" aria-hidden="true">01</span><span>Разведка и журнал покрытия</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Свежий verifier пытается опровергнуть находку</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>findings.json по схеме и отчёт</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Установите skill (<code>npx skills add https://github.com/cloudflare/security-audit-skill --skill security-audit</code>) и запустите на одном сервисе с выводом в отдельный каталог.</li><li>Разберите needs_validation отдельно от confirmed и проверьте одну подтверждённую находку вручную.</li><li>Через неделю перезапустите аудит: он должен опереться на прежний журнал покрытия и проверить изменённый код.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Skill опубликован ещё в июне и попал в выпуск как растущий репозиторий недели. Нужны агент с параллельными subagents, Node.js для валидаторов и sandbox на уровне ОС: без него находки остаются needs_validation, а код цели не запускается.</p></div></details>
+<div class="links"><a href="https://x.com/so_ainsight/status/2121440495276798005" target="_blank" rel="noopener">Пост в X ↗</a><a href="https://github.com/cloudflare/security-audit-skill" target="_blank" rel="noopener">security-audit-skill ↗</a></div></article><article class="trick rv" id="card-20" data-card-id="2119888414736859356" data-section="workflow" data-mobile-card>
+<div class="card-top"><span class="tnum">20</span><span>Приём</span></div>
+<h3>Начинать grilling с проблемы, а не с готового решения</h3><div class="byline">Matt Pocock <span>· 9 ноября</span></div>
+<div class="copy" data-mobile-copy><p class="problem">Вы просите агента расспросить вас перед реализацией и начинаете с «хочу панель аналитики с графиками и фильтрами». Агент считает решение принятым и задаёт вопросы только о реализации.</p><p>Автор советует описывать «почему», а не «что». Вместо готового решения дайте проблему: «Admins can't currently see an overview of the important data in the app». Если начать с решения, агент за него держится и спрашивает только о реализации. Описание проблемы, по словам автора, даёт агенту свободу и ведёт к более глубокому разговору.</p></div>
+<aside class="key-point" aria-label="Главный вывод"><span class="point-label">✧ Главное</span><strong>Формулировка в начале сессии задаёт, что агент считает решённым. Описание проблемы оставляет ему пространство для вопросов.</strong><p data-mobile-copy>Пример редакции для бэкенда: вместо «нужен кэш» опишите измеримый симптом на конкретном эндпоинте, и разговор начнётся с причины, а не с выбора хранилища.</p></aside>
+
+<div class="flow-block"><p class="flow-label">Два начала сессии <span>· редакция</span></p><ol class="mini-flow branches"><li><span class="flow-index" aria-hidden="true">01</span><span>Решение в первом сообщении</span></li><li><span class="flow-index" aria-hidden="true">02</span><span>Агент спрашивает только о реализации</span></li><li><span class="flow-index" aria-hidden="true">03</span><span>Проблема в первом сообщении: более свободный разговор</span></li></ol></div>
+<div class="apply-panel"><h4>↳ Как применить</h4><p class="apply-caption">Предлагаемый эксперимент в своём проекте</p><ol class="action-steps" data-mobile-copy><li>Перед следующей сессией планирования запишите проблему одной фразой без упоминания технологии.</li><li>Начните grilling с неё и с измеримого симптома, если он есть.</li><li>Сравните список вопросов агента с прошлой сессией, где вы начинали с решения.</li></ol></div>
+<details><summary>Ограничения и оговорки источника <span aria-hidden="true">＋</span></summary><div class="detail-copy" data-mobile-copy><p>Совет из личной практики автора без сравнения на выборке.</p></div></details>
+<div class="links"><a href="https://x.com/mattpocockuk/status/2119888414736859356" target="_blank" rel="noopener">Пост в X ↗</a></div></article></div></section>
+<section class="wrap" id="radar"><div class="shead"><span class="num">◎</span><h2>На что обратить внимание</h2></div><p class="lead">Материалы с полезной идеей, у которых не хватило проверки источника или переносимого механизма.</p><div class="review-box"><ul class="radar"><li><strong>FrontierHarness v1.1.</strong> 21 harness × 5 моделей × 62 задачи × 4 попытки; рейтинг по цене одного прохода ещё обновляется, поэтому выводы рано фиксировать. <a href="https://x.com/guanlan/status/2120192585235046712" target="_blank" rel="noopener" style="text-decoration:underline">пост ↗</a></li><li><strong>Dynamic Workflows в Antigravity.</strong> Агент пишет Python-скрипт, который оркестрирует subagents; документация на момент выпуска описывала только прежние workflows. <a href="https://x.com/antigravity/status/2121327669534933025" target="_blank" rel="noopener" style="text-decoration:underline">пост ↗</a></li><li><strong>/doctor prompt-audit в Claude Code.</strong> Проверка репозитория на рекомендации для текущей модели; официальную страницу документации найти не удалось. <a href="https://x.com/lydiahallie/status/2121011733699633613" target="_blank" rel="noopener" style="text-decoration:underline">пост ↗</a></li><li><strong>tstack от Theo.</strong> Skills для доведения PR до слияния (babysit-pr, council); в README есть только таблица назначений без механизма. <a href="https://x.com/Yarad_ai/status/2121593777311613278" target="_blank" rel="noopener" style="text-decoration:underline">пост ↗</a></li><li><strong>SFT на траекториях агента в TRL.</strong> Задачи, решённые большой моделью в OpenCode, стали данными для 2B-модели: с 5,5% до 34,4% на отложенных задачах. <a href="https://x.com/SergioPaniego/status/2120177440282788028" target="_blank" rel="noopener" style="text-decoration:underline">пост ↗</a></li></ul></div></section>
+<section class="wrap" id="plan"><div class="shead"><span class="num">↳</span><h2>Что попробовать на неделе</h2></div><div class="review-box"><label><input type="checkbox" data-plan="p1"><span>Выполнить <code>git ls-files .claude/</code> во всех репозиториях и убрать секреты из settings.local.json.</span></label><label><input type="checkbox" data-plan="p2"><span>Перевести один Stop hook на <code>&gt;&amp;2 || exit 2</code> и проверить повтор на сломанном тесте.</span></label><label><input type="checkbox" data-plan="p3"><span>Посчитать цену решённой задачи на 15 своих задачах в двух harness или на двух уровнях effort.</span></label></div></section>
+<section class="wrap" id="funnel"><div class="shead"><span class="num">⌕</span><h2>Как отбирали материалы</h2></div><div class="review-box funnel"><p>Корпус недели собран двумя слоями: тематический поиск по X и ленты 28 знакомых авторов. Зеркало nitter отдавало часть лент и запросов не до начала окна; их добрали повторным проходом и посуточными запросами, после чего каждая цель покрывает не меньше 7 из 8 суток окна.</p><p>Из 2 982 постов просмотрены 60 самых распространяемых, собственные посты 15 ключевых авторов и результаты второго поиска по памяти, hooks, MCP, ревью и CI в остальном корпусе: всего 103 решения. 27 материалов прочитаны целиком вместе со статьями, README и документацией по ссылкам.</p><p>В выпуск вошли материалы с раскрытым механизмом и понятным применением. Каждую карточку отдельно проверили на опровержение: подтверждает ли источник именно её утверждения. По итогам проверки часть формулировок сужена. Анонсы моделей, подборки ссылок без разбора и посты без проверяемого механизма остались за пределами выпуска.</p></div></section>
+<section class="wrap"><div class="shead"><span class="num">#</span><h2>Метаданные</h2></div><div class="meta"><div><b>период</b> 8–15 ноября 2026, Europe/Moscow</div><div><b>корпус / просмотрено / прочитано / в выпуске</b> 2 982 / 103 / 27 / 20</div><div><b>источники</b> nitter RSS (nitter.perennialte.ch), fxtwitter, Firecrawl, Playwriter headless для страниц, недоступных Firecrawl</div><div><b>пробелы сбора</b> посуточный добор отдаёт до 20 постов на сутки запроса; в самые активные дни часть постов по широким темам могла не попасть в корпус</div></div></section></main><footer>X WEEKLY · 2026-11-15</footer>
+<div id="lb" role="dialog" aria-label="Увеличенное изображение" aria-modal="true" aria-hidden="true"><button class="close" aria-label="Закрыть изображение">×</button><img id="lbimg" alt="Увеличенное изображение источника"><div class="lbcap" id="lbcap"></div><a class="lbbtn" id="lbbtn" target="_blank" rel="noopener">Открыть первоисточник ↗</a></div>
+<script>
+(function(){
+  document.documentElement.classList.add("js");
+  var prog=document.getElementById('progress');
+  function onScroll(){var h=document.documentElement;prog.style.width=((h.scrollTop)/(h.scrollHeight-h.clientHeight)*100)+'%';}
+  window.addEventListener('scroll',onScroll,{passive:true});onScroll();
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},{threshold:.12});
+  document.querySelectorAll('.rv').forEach(function(el){io.observe(el);});
+
+  var navlinks=[].slice.call(document.querySelectorAll('.nav-links a'));
+  var secs=navlinks.map(function(a){return document.querySelector(a.getAttribute('href'));});
+  var spy=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){var id='#'+e.target.id;navlinks.forEach(function(a){a.classList.toggle('active',a.getAttribute('href')===id);});}});},{rootMargin:'-45% 0px -50% 0px'});
+  secs.forEach(function(s){if(s)spy.observe(s);});
+
+  // lightbox: data-full = картинка, data-href = твит
+  var lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbcap=document.getElementById('lbcap'),lbbtn=document.getElementById('lbbtn');
+  document.querySelectorAll('.shot[data-full]').forEach(function(s){
+    s.addEventListener('click',function(){
+      lbimg.src=s.getAttribute('data-full');
+      lbcap.textContent=s.getAttribute('data-cap')||'';
+      var href=s.getAttribute('data-href');
+      if(href){lbbtn.href=href;lbbtn.style.display='inline-flex';}else{lbbtn.style.display='none';}
+      lb.classList.add('on');
+    });
+  });
+  function close(){lb.classList.remove('on');lbimg.src='';}
+  lb.addEventListener('click',function(e){if(e.target===lb||e.target.classList.contains('close'))close();});
+  lbbtn.addEventListener('click',function(e){e.stopPropagation();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+
+  document.querySelectorAll('.check').forEach(function(c){c.addEventListener('click',function(){c.classList.toggle('done');});});
+})();
+</script><script>
+(()=>{
+const search=document.querySelector('#search'),only=document.querySelector('#only-new'),cards=[...document.querySelectorAll('[data-card-id]')];
+function filter(){const q=search.value.toLocaleLowerCase('ru').trim();let shown=0;cards.forEach(c=>{c.hidden=(only?.checked&&c.dataset.new!=='true')||(q&&!c.textContent.toLocaleLowerCase('ru').includes(q));if(!c.hidden){shown++;c.classList.add('in')}});document.querySelectorAll('.topic').forEach(s=>s.hidden=![...s.querySelectorAll('[data-card-id]')].some(c=>!c.hidden));document.querySelector('#result').textContent=`Показано ${shown} из ${cards.length}`;document.querySelector('#empty').hidden=shown!==0;window.dispatchEvent(new Event('scroll'));}
+search.addEventListener('input',filter);only?.addEventListener('change',filter);
+const lb=document.querySelector('#lb');let previous;
+new MutationObserver(()=>{const open=lb.classList.contains('on');lb.setAttribute('aria-hidden',String(!open));if(open){previous=document.activeElement;document.body.style.overflow='hidden';lb.querySelector('.close').focus()}else{document.body.style.overflow='';if(previous)previous.focus()}}).observe(lb,{attributes:true,attributeFilter:['class']});
+lb.addEventListener('keydown',e=>{if(e.key==='Tab'){const focusable=[lb.querySelector('.close'),lb.querySelector('#lbbtn')];if(e.shiftKey&&document.activeElement===focusable[0]){e.preventDefault();focusable[1].focus()}else if(!e.shiftKey&&document.activeElement===focusable[1]){e.preventDefault();focusable[0].focus()}}});
+document.querySelectorAll('[data-plan]').forEach(c=>{const key='x-digest:'+document.body.dataset.digestDate+':'+c.dataset.plan;try{c.checked=localStorage.getItem(key)==='true'}catch{}c.addEventListener('change',()=>{try{localStorage.setItem(key,String(c.checked))}catch{}})});
+})();
+</script>
+<script>(()=>{const i=document.getElementById('lbimg');document.querySelectorAll('.shot[data-full]').forEach(sh=>sh.addEventListener('click',()=>{const w=+sh.dataset.w,h=+sh.dataset.h;const set=(k,v)=>i.style.setProperty(k,v,'important');set('width','auto');set('height','auto');set('max-width',Math.min(w/2,innerWidth*0.94)+'px');set('max-height',Math.min(h/2,innerHeight*0.75)+'px')}));})();</script>
+</body></html>
